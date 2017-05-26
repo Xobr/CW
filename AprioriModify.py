@@ -51,10 +51,15 @@ class apriori_modify:
 
     def get_product_dict(self,cstr):
         res = dict()
-        for line in open(cstr):
+        #for line in open(cstr):
+        with open(cstr) as f:
+            line = f.readline()
+            lsss = list(line)
+
             ls = line.split(';')
-            if len(ls) < 2:
-                continue
+            #if len(ls) < 2:
+            #    continue
+            print len(ls[0])
             key = int(ls[0])
             res[key] = ls[1]
         return res

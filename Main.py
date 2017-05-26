@@ -7,7 +7,7 @@ def print_time():
 
 print_time()
 print 'start'
-ap = apriori_dict('table.csv','products.csv')
+ap = apriori_dict('table.txt','products.csv')
 ap.read()
 print_time()
 print 'strart app'
@@ -18,6 +18,6 @@ print 'finish'
 print_time()
 for el in res:
     print el
-ap.print_res(res)
+#ap.print_res(res)
 
 
