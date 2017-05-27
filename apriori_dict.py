@@ -26,8 +26,15 @@ class apriori_dict(apriori_modify):
     def get_Support(self, mainElement, elements):
         mainSum = 0
         sum = 0
-        for elements in self.dataset:
-            if(mainElement )
+        for line in self.dataset:
+            if(self.is_elements_incheck(line,elements)):
+                continue
+            sum = sum + 1
+            if mainElement in line:
+                mainSum = mainSum + 1
+        res = float(mainSum)/float(sum)
+        return  res
+
 
     def get_start_set(self,dataset):
         self.prodc_dict = self.get_product_dict(self.pstr)

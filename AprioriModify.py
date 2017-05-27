@@ -1,6 +1,7 @@
 class apriori_modify:
 
     path = None
+    minSupport = 0.2
 
     def __init__(self,pt):
         self.path = pt
@@ -14,18 +15,43 @@ class apriori_modify:
     def parse_line(self,line):
         return [int(i) for i in line.split(',')]
 
+    def supportMining(self,res1):
+        res = list()
+        for line in res1:
+            rs = self.supportOneRes1(line)
+            if not(rs==None):
+                res.append(rs)
+        return res
+
+    def supportOneRes1(self,res1):
+        ln = len(res1[0])
+        if(ln==1):
+            return None
+        el = list(res1[0])
+        el.remove(res1[0][ln-1])
+        supp = self.get_Support(res1[0][ln-1],el)
+        if(supp<self.minSupport):
+            return None
+        res = list()
+        el.append(res1[0][ln-1])
+        res.append([el])
+        res.append(res1[1])
+        res.append(supp)
+        return res
+
+
     def get_Support(self,mainElement,elements):
         mainSum = 0
         sum = 0
         for line in open(self.path):
             pline =self.parse_line(line)
             elS = self.one_check(pline,elements)
-            if not(elS == 1)#not(pline[mainElement]==1):
+            if not(elS == 1):#not(pline[mainElement]==1):
                 continue
             sum = sum + elS
             if (pline[mainElement]==1):
                 mainSum = mainSum + 1
-        return mainSum/sum
+        return float(mainSum)/float(sum)
 
     def get_P(self, elements):
         sum = 0
