@@ -16,12 +16,18 @@ class apriori_dict(apriori_modify):
                 return  False
         return True
 
-    def get_support(self,elements):
+    def get_P(self, elements):
         sup = 0
         for elem in self.dataset:
             if(self.is_elements_incheck(elem,elements)):
                 sup = sup + 1
         return sup
+
+    def get_Support(self, mainElement, elements):
+        mainSum = 0
+        sum = 0
+        for elements in self.dataset:
+            if(mainElement )
 
     def get_start_set(self,dataset):
         self.prodc_dict = self.get_product_dict(self.pstr)

@@ -14,7 +14,20 @@ class apriori_modify:
     def parse_line(self,line):
         return [int(i) for i in line.split(',')]
 
-    def get_support(self, elements):
+    def get_Support(self,mainElement,elements):
+        mainSum = 0
+        sum = 0
+        for line in open(self.path):
+            pline =self.parse_line(line)
+            elS = self.one_check(pline,elements)
+            if not(elS == 1)#not(pline[mainElement]==1):
+                continue
+            sum = sum + elS
+            if (pline[mainElement]==1):
+                mainSum = mainSum + 1
+        return mainSum/sum
+
+    def get_P(self, elements):
         sum = 0
         for line in open(self.path):
             pline =self.parse_line(line)
@@ -29,7 +42,7 @@ class apriori_modify:
         start_list = list()
         result = list()
         for elem in ss:
-            supp = self.get_support([elem])
+            supp = self.get_P([elem])
             if supp >= min_support:
                 start_list.append([elem])
                 result.append([[elem], supp])
@@ -42,7 +55,7 @@ class apriori_modify:
                     if not (st[0] in elem):
                         crr = list(elem)
                         crr.append(st[0])
-                        supp = self.get_support(crr)
+                        supp = self.get_P(crr)
                         if supp >= min_support:
                             next_list.append(crr)
                             result.append([crr, supp])
@@ -51,9 +64,9 @@ class apriori_modify:
 
     def get_product_dict(self,cstr):
         res = dict()
-        #for line in open(cstr):
-        with open(cstr) as f:
-            line = f.readline()
+        for line in open(cstr):
+        #with open(cstr) as f:
+           # line = f.readline()
             lsss = list(line)
 
             ls = line.split(';')
