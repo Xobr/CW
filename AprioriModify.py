@@ -60,11 +60,18 @@ class apriori_modify:
             sum = sum + self.one_check(pline, elements)
         return sum
 
-    def get_start_set(self,dataset):
+    def get_start_set(self,dataset,minsupp):
         return len(dataset[0])
 
-    def aprori(self,dataset, min_support):
-        ss = self.get_start_set(dataset)
+    def getSizeOfDataset(self,dataset):
+        res = 0
+        for line in open(self.path):
+            res = res + 1
+        return  res
+
+    def aprori(self,dataset, min_support_percent):
+        min_support = min_support_percent * self.getSizeOfDataset(dataset)
+        ss = self.get_start_set(dataset,min_support)
         start_list = list()
         result = list()
         for elem in ss:
@@ -77,6 +84,7 @@ class apriori_modify:
             lastLs = list(next_list)
             next_list = list()
             for elem in lastLs:
+                #return result
                 for st in start_list:
                     if not (st[0] in elem):
                         crr = list(elem)
@@ -98,7 +106,7 @@ class apriori_modify:
             ls = line.split(';')
             #if len(ls) < 2:
             #    continue
-            print len(ls[0])
+            #print len(ls[0])
             key = int(ls[0])
             res[key] = ls[1]
         return res

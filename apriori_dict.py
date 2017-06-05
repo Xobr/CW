@@ -23,11 +23,14 @@ class apriori_dict(apriori_modify):
                 sup = sup + 1
         return sup
 
+    def getSizeOfDataset(self, dataset):
+        return len(dataset)
+
     def get_Support(self, mainElement, elements):
         mainSum = 0
         sum = 0
         for line in self.dataset:
-            if(self.is_elements_incheck(line,elements)):
+            if not(self.is_elements_incheck(line,elements)):
                 continue
             sum = sum + 1
             if mainElement in line:
@@ -36,10 +39,20 @@ class apriori_dict(apriori_modify):
         return  res
 
 
-    def get_start_set(self,dataset):
+    def get_start_set(self,dataset,min_support):
         self.prodc_dict = self.get_product_dict(self.pstr)
-        res = list()
-        return self.prodc_dict.keys()
+        res = dict()
+        for line in dataset:
+            for item in line:
+                if(item in res.keys()):
+                    res[item] = res[item] + 1
+                else:
+                    res[item] = 1
+        resLs = list()
+        for it in res.keys():
+            if res[it] > min_support:
+                resLs.append(it)
+        return resLs
 
     def read(self):
         self.dataset = list()
@@ -49,9 +62,10 @@ class apriori_dict(apriori_modify):
 
     def print_res(self,res):
         for elem in res:
-            for st in elem[0]:
+            for st in elem[0][0]:
                 print self.prodc_dict[st]
             print elem[1]
+            print elem[2]
             print '___'
             print ''
 

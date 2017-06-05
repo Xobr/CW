@@ -7,13 +7,13 @@ def print_time():
 
 print_time()
 print 'start'
-ap = apriori_dict('table.txt','products.txt')
-ap.minSupport = 0.2
+ap = apriori_dict('orders1.txt','Kproducts.csv')
+ap.minSupport = 0.02
 ap.read()
 print_time()
 print 'strart app'
 print_time()
-res1 = ap.aprori(ap.dataset,2)
+res1 = ap.aprori(ap.dataset,0.005)
 res = ap.supportMining(res1)
 print print_time()
 print 'finish'
